@@ -35,7 +35,7 @@ jobs:
           retention-days: 7
 
   docker:
-    name: Build & Push Docker Image
+    name: Push Docker Image
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -53,8 +53,8 @@ jobs:
 
       - name: Build de l’image Docker
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/mon-projet:latest .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:latest .
 
       - name: Push de l’image Docker sur Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/mon-projet:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:latest
