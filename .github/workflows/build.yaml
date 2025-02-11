@@ -1,10 +1,9 @@
-name: Build & Release Spring Boot
+name: Build Spring Boot
 
 on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Permet de déclencher manuellement
 
 jobs:
   build:
