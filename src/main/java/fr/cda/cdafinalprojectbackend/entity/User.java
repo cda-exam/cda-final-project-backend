@@ -35,6 +35,7 @@ public class User {
     private String email;
 
     @Column(
+            unique = false,
             nullable = false,
             name = "password"
     )
