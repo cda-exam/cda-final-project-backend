@@ -8,5 +8,5 @@ public class UserCreateDTO {
     private String password;
     private String email;
     private String description;
-    private String profilPicture;
+    private String profilePicture;
 }

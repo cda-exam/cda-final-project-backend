@@ -19,7 +19,7 @@ public class UserMapper {
 
         userDTO.setUsername(user.getUsername());
         userDTO.setEmail(user.getEmail());
-        userDTO.setProfilPicture(user.getProfilePicture());
+        userDTO.setProfilePicture(user.getProfilePicture());
         userDTO.setDescription(user.getDescription());
         userDTO.setRole(user.getRole());
         userDTO.setIsActive(user.getIsActive());
@@ -36,7 +36,7 @@ public class UserMapper {
 
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
-        user.setProfilePicture(userDTO.getProfilPicture());
+        user.setProfilePicture(userDTO.getProfilePicture());
         user.setDescription(userDTO.getDescription());
         user.setRole(userDTO.getRole());
         user.setIsActive(userDTO.getIsActive());
@@ -65,7 +65,7 @@ public class UserMapper {
         user.setUsername(userCreateDTO.getUsername());
         user.setEmail(userCreateDTO.getEmail());
         user.setDescription(userCreateDTO.getDescription());
-        user.setProfilePicture(userCreateDTO.getProfilPicture());
+        user.setProfilePicture(userCreateDTO.getProfilePicture());
         user.setPassword(userCreateDTO.getPassword());
 
         return user;
@@ -79,7 +79,7 @@ public class UserMapper {
         User user = new User();
 
         user.setUsername(userUpdateDTO.getUsername());
-        user.setProfilePicture(userUpdateDTO.getProfilPicture());
+        user.setProfilePicture(userUpdateDTO.getProfilePicture());
         user.setDescription(userUpdateDTO.getDescription());
         return user;
     }
