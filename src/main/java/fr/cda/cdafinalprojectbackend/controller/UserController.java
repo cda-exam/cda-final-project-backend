@@ -5,7 +5,7 @@ import fr.cda.cdafinalprojectbackend.dto.user.UserDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserUpdateDTO;
 import fr.cda.cdafinalprojectbackend.entity.User;
 import fr.cda.cdafinalprojectbackend.exception.UserNotFoundException;
-import fr.cda.cdafinalprojectbackend.service.UserService;
+import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping(value = "user")
 @AllArgsConstructor
 public class UserController {
-    UserService userService;
+    UserServiceImpl userService;
 
     @GetMapping(value = "test")
     public String getTest() {
@@ -34,13 +34,13 @@ public class UserController {
     }
 
     @PostMapping()
-    public User addUser(@RequestBody UserCreateDTO userCreateDTO) {
-        return this.userService.addUser(userCreateDTO);
+    public User createUser(@RequestBody UserCreateDTO userCreateDTO) {
+        return this.userService.createUser(userCreateDTO);
     }
 
     @PutMapping(value = "{id}")
-    public User modifyUser(@PathVariable UUID id, @RequestBody UserUpdateDTO userUpdateDTO) throws UserNotFoundException {
-        return this.userService.modifyUser(id, userUpdateDTO);
+    public User updateUser(@PathVariable UUID id, @RequestBody UserUpdateDTO userUpdateDTO) throws UserNotFoundException {
+        return this.userService.updateUser(id, userUpdateDTO);
     }
 
     @DeleteMapping(value = "{id}")
