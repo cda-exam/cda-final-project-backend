@@ -72,7 +72,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-docker-
 
-      - name: Build & Push Docker Image
+      - name: Build de l’image Docker
         run: |
-          docker build --no-cache --rm -t ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:latest .
+          docker build  --no-cache --rm -t ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:latest .
+
+      - name: Push de l’image Docker sur Docker Hub
+        run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:latest
