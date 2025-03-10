@@ -4,6 +4,7 @@ import fr.cda.cdafinalprojectbackend.dto.user.UserCreateDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserUpdateDTO;
 import fr.cda.cdafinalprojectbackend.entity.User;
+import fr.cda.cdafinalprojectbackend.exception.UserAlreadyExistsException;
 import fr.cda.cdafinalprojectbackend.exception.UserNotFoundException;
 import fr.cda.cdafinalprojectbackend.mapper.UserMapper;
 import fr.cda.cdafinalprojectbackend.repository.UserRepository;
@@ -32,6 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public User createUser(UserCreateDTO userCreateDTO) {
+        boolean isUserAlreadyExists = userRepository.existsByEmail(userCreateDTO.getEmail());
+
+        if (isUserAlreadyExists) {
+            throw new UserAlreadyExistsException();
+        }
+
         User user = this.userMapper.toEntity(userCreateDTO);
         user.setRole(Role.ROLE_USER);
         user.setIsActive(true);
@@ -44,7 +51,7 @@ public class UserServiceImpl implements UserService {
 
         user.setUsername(userUpdateDTO.getUsername());
         user.setDescription(userUpdateDTO.getDescription());
-        user.setProfilePicture(userUpdateDTO.getProfilPicture());
+        user.setProfilePicture(userUpdateDTO.getProfilePicture());
 
         return this.userRepository.save(user);
     }
