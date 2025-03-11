@@ -4,6 +4,7 @@ import fr.cda.cdafinalprojectbackend.dto.user.UserCreateDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserUpdateDTO;
 import fr.cda.cdafinalprojectbackend.entity.User;
+import fr.cda.cdafinalprojectbackend.exception.UserAlreadyExistsException;
 import fr.cda.cdafinalprojectbackend.exception.UserNotFoundException;
 import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public User createUser(@RequestBody UserCreateDTO userCreateDTO) {
+    public User createUser(@RequestBody UserCreateDTO userCreateDTO) throws UserAlreadyExistsException {
         return this.userService.createUser(userCreateDTO);
     }
 

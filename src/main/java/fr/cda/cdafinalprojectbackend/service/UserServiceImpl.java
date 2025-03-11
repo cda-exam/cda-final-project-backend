@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public User createUser(UserCreateDTO userCreateDTO) {
+    public User createUser(UserCreateDTO userCreateDTO) throws UserAlreadyExistsException {
         boolean isUserAlreadyExists = userRepository.existsByEmail(userCreateDTO.getEmail());
 
         if (isUserAlreadyExists) {
