@@ -28,7 +28,7 @@ public class DBUser implements UserDetails {
     private UUID id;
 
     @Column(
-            unique = true,
+            unique = false,
             nullable = false,
             name = "nickname"
     )
