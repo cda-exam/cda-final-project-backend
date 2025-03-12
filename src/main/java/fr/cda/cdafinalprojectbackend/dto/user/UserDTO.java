@@ -1,11 +1,11 @@
 package fr.cda.cdafinalprojectbackend.dto.user;
 
-import fr.cda.cdafinalprojectbackend.security.Role;
+import fr.cda.cdafinalprojectbackend.entity.Role;
 import lombok.Data;
 
 @Data
 public class UserDTO {
-    private String username;
+    private String nickname;
     private String email;
     private String description;
     private String profilePicture;

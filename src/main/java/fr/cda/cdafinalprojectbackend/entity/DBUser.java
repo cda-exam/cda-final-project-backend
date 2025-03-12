@@ -1,12 +1,15 @@
 package fr.cda.cdafinalprojectbackend.entity;
 
-import fr.cda.cdafinalprojectbackend.security.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 @Entity
@@ -14,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @DynamicUpdate // Permet d'update uniquement les champs modifiés
-public class User {
+public class DBUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(
@@ -27,9 +30,9 @@ public class User {
     @Column(
             unique = true,
             nullable = false,
-            name = "username"
+            name = "nickname"
     )
-    private String username;
+    private String nickname;
 
     @Column(
             unique = true,
@@ -66,15 +69,37 @@ public class User {
     )
     private Boolean isActive;
 
-    @Enumerated(EnumType.STRING)
-    @Column(
-            nullable = false,
-            unique = false,
-            name = "role"
-    )
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "role_id")
     private Role role;
 
-    public void setPassword(String rawPassword) {
-        this.password = new BCryptPasswordEncoder().encode(rawPassword);
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.getType()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }
