@@ -3,7 +3,7 @@ package fr.cda.cdafinalprojectbackend.controller;
 import fr.cda.cdafinalprojectbackend.dto.user.UserCreateDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserUpdateDTO;
-import fr.cda.cdafinalprojectbackend.entity.User;
+import fr.cda.cdafinalprojectbackend.entity.DBUser;
 import fr.cda.cdafinalprojectbackend.exception.UserAlreadyExistsException;
 import fr.cda.cdafinalprojectbackend.exception.UserNotFoundException;
 import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
@@ -35,12 +35,12 @@ public class UserController {
     }
 
     @PostMapping()
-    public User createUser(@RequestBody UserCreateDTO userCreateDTO) throws UserAlreadyExistsException {
+    public DBUser createUser(@RequestBody UserCreateDTO userCreateDTO) throws UserAlreadyExistsException {
         return this.userService.createUser(userCreateDTO);
     }
 
     @PutMapping(value = "{id}")
-    public User updateUser(@PathVariable UUID id, @RequestBody UserUpdateDTO userUpdateDTO) throws UserNotFoundException {
+    public DBUser updateUser(@PathVariable UUID id, @RequestBody UserUpdateDTO userUpdateDTO) throws UserNotFoundException {
         return this.userService.updateUser(id, userUpdateDTO);
     }
 
