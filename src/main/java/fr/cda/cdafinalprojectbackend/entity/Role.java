@@ -1,6 +1,6 @@
 package fr.cda.cdafinalprojectbackend.entity;
 
-import fr.cda.cdafinalprojectbackend.security.RoleEnum;
+import fr.cda.cdafinalprojectbackend.configuration.security.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

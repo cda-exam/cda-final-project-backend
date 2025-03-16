@@ -12,9 +12,11 @@ import fr.cda.cdafinalprojectbackend.mapper.UserMapper;
 import fr.cda.cdafinalprojectbackend.repository.RoleRepository;
 import fr.cda.cdafinalprojectbackend.repository.UserRepository;
 import fr.cda.cdafinalprojectbackend.repository.ValidationRepository;
-import fr.cda.cdafinalprojectbackend.security.RoleEnum;
+import fr.cda.cdafinalprojectbackend.configuration.security.RoleEnum;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +27,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final RoleRepository roleRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ValidationServiceImpl validationService;
-    private final ValidationRepository validationRepository;
+@AllArgsConstructor
+public class UserServiceImpl implements UserService, UserDetailsService {
+    private UserRepository userRepository;
+    private UserMapper userMapper;
+    private RoleRepository roleRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ValidationServiceImpl validationService;
+    private ValidationRepository validationRepository;
 
     public List<UserDTO> getUsers() {
         return userMapper.toDTOList(this.userRepository.findAll());
@@ -105,5 +107,14 @@ public class UserServiceImpl implements UserService {
         this.userRepository.save(dbUser);
         validation.setActivation(Instant.now());
         validationRepository.save(validation);
+    }
+
+    @Override
+    public DBUser loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository
+                .findByEmail(username)
+                .orElseThrow(
+                        () -> new UsernameNotFoundException("User not found")
+                );
     }
 }

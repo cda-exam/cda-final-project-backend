@@ -1,7 +1,7 @@
 package fr.cda.cdafinalprojectbackend.repository;
 
 import fr.cda.cdafinalprojectbackend.entity.Role;
-import fr.cda.cdafinalprojectbackend.security.RoleEnum;
+import fr.cda.cdafinalprojectbackend.configuration.security.RoleEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
