@@ -1,6 +1,8 @@
 package fr.cda.cdafinalprojectbackend.configuration.security;
 
 import fr.cda.cdafinalprojectbackend.entity.DBUser;
+import fr.cda.cdafinalprojectbackend.entity.Jwt;
+import fr.cda.cdafinalprojectbackend.repository.JwtRepository;
 import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
-import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
@@ -22,11 +23,21 @@ import java.util.function.Function;
 public class JwtService {
     // TODO Placer l'encryption key dans le Vault
     private static final String ENCRYPTION_KEY =  "5c275094bb03404a10e5a0ed86f2046e93a03cd138a813ed7379243e9e87697d";
+    public static final String BEARER = "bearer";
     private UserServiceImpl userService;
+    private JwtRepository jwtRepository;
 
     public Map<String, String> getJwtToken(String username) {
         DBUser dbUser = this.userService.loadUserByUsername(username);
-        return this.generateJwt(dbUser);
+        final Map<String, String> jwtMap = this.generateJwt(dbUser);
+        final Jwt jwt = Jwt.builder()
+                .value(jwtMap.get(BEARER))
+                .isActive(true)
+                .expirate(false)
+                .user(dbUser)
+                .build();
+        this.jwtRepository.save(jwt);
+        return jwtMap;
     }
 
     private Map<String, String> generateJwt(DBUser dbUser) {
@@ -48,7 +59,7 @@ public class JwtService {
                 .compact();
 
         return Map.of(
-                "bearer", bearer
+                BEARER, bearer
         );
     }
 
