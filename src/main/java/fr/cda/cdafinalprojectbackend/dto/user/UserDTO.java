@@ -9,6 +9,7 @@ public class UserDTO {
     private String email;
     private String description;
     private String profilePicture;
+    private String city;
     private Role role;
     private Boolean isActive;
 }

@@ -8,15 +8,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
-@DynamicUpdate // Permet d'update uniquement les champs modifiés
+@DynamicUpdate
 public class DBUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -62,6 +60,9 @@ public class DBUser implements UserDetails {
     )
     private String profilePicture;
 
+    @Column(nullable = true)
+    private String city;
+
     @Column(
             nullable = false,
             unique = false,
@@ -72,6 +73,9 @@ public class DBUser implements UserDetails {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Dog> dogs = new ArrayList<>();
 
     @Override
     public String getUsername() {

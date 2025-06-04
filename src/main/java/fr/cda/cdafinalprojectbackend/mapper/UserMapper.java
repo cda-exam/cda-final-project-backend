@@ -23,6 +23,7 @@ public class UserMapper {
         userDTO.setDescription(dbUser.getDescription());
         userDTO.setRole(dbUser.getRole());
         userDTO.setIsActive(dbUser.getIsActive());
+        userDTO.setCity(dbUser.getCity());
 
         return userDTO;
     }
@@ -40,6 +41,7 @@ public class UserMapper {
         dbUser.setDescription(userDTO.getDescription());
         dbUser.setRole(userDTO.getRole());
         dbUser.setIsActive(userDTO.getIsActive());
+        dbUser.setCity(userDTO.getCity());
         return dbUser;
     }
 
@@ -67,6 +69,7 @@ public class UserMapper {
         dbUser.setDescription(userCreateDTO.getDescription());
         dbUser.setProfilePicture(userCreateDTO.getProfilePicture());
         dbUser.setPassword(userCreateDTO.getPassword());
+        dbUser.setCity(userCreateDTO.getCity());
 
         return dbUser;
     }
@@ -81,6 +84,7 @@ public class UserMapper {
         dbUser.setNickname(userUpdateDTO.getNickname());
         dbUser.setProfilePicture(userUpdateDTO.getProfilePicture());
         dbUser.setDescription(userUpdateDTO.getDescription());
+        dbUser.setCity(userUpdateDTO.getCity());
         return dbUser;
     }
 }

@@ -7,4 +7,5 @@ public class UserUpdateDTO {
     private String nickname;
     private String description;
     private String profilePicture;
+    private String city;
 }

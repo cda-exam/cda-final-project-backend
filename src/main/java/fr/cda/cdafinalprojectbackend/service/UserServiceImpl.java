@@ -82,6 +82,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         dbUser.setNickname(userUpdateDTO.getNickname());
         dbUser.setDescription(userUpdateDTO.getDescription());
         dbUser.setProfilePicture(userUpdateDTO.getProfilePicture());
+        dbUser.setCity(userUpdateDTO.getCity());
 
         return this.userRepository.save(dbUser);
     }
@@ -93,9 +94,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public void activateUser(Map<String, String> activation) {
+    public void activateUser(Map<String, String> activation, String email) {
         Validation validation = this.validationService.getValidationByCode(activation.get("code"));
         if (Instant.now().isAfter(validation.getExpiration())) {
+            throw new RuntimeException("Invalid code");
+        }
+
+        if (!validation.getUser().getEmail().equals(email)) {
             throw new RuntimeException("Invalid code");
         }
 

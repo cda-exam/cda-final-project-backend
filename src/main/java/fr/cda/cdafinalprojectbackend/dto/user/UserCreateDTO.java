@@ -9,4 +9,5 @@ public class UserCreateDTO {
     private String email;
     private String description;
     private String profilePicture;
+    private String city;
 }

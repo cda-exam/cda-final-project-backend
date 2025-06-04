@@ -16,5 +16,5 @@ public interface UserService {
     DBUser createUser(UserCreateDTO userCreateDTO);
     DBUser updateUser(UUID id, UserUpdateDTO userUpdateDTO) throws UserNotFoundException;
     void deleteUser(UUID id) throws UserNotFoundException;
-    void activateUser(Map<String, String> activation);
+    void activateUser(Map<String, String> activation, String email);
 }
