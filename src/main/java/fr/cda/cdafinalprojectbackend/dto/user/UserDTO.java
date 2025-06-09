@@ -1,5 +1,7 @@
 package fr.cda.cdafinalprojectbackend.dto.user;
 
+import fr.cda.cdafinalprojectbackend.configuration.security.RoleEnum;
+import fr.cda.cdafinalprojectbackend.dto.role.RoleDTO;
 import fr.cda.cdafinalprojectbackend.entity.Role;
 import lombok.Data;
 
@@ -10,6 +12,6 @@ public class UserDTO {
     private String description;
     private String profilePicture;
     private String city;
-    private Role role;
+    private RoleEnum role;
     private Boolean isActive;
 }

@@ -117,9 +117,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public DBUser loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository
-                .findByEmail(username)
+                .findByEmailAndIsActiveIsTrue(username)
                 .orElseThrow(
-                        () -> new UsernameNotFoundException("User not found")
+                        () -> new UsernameNotFoundException("Username not found")
                 );
     }
 }

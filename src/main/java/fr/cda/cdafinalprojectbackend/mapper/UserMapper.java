@@ -4,6 +4,7 @@ import fr.cda.cdafinalprojectbackend.dto.user.UserCreateDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserDTO;
 import fr.cda.cdafinalprojectbackend.dto.user.UserUpdateDTO;
 import fr.cda.cdafinalprojectbackend.entity.DBUser;
+import fr.cda.cdafinalprojectbackend.entity.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,29 +22,29 @@ public class UserMapper {
         userDTO.setEmail(dbUser.getEmail());
         userDTO.setProfilePicture(dbUser.getProfilePicture());
         userDTO.setDescription(dbUser.getDescription());
-        userDTO.setRole(dbUser.getRole());
+        userDTO.setRole(dbUser.getRole().getType());
         userDTO.setIsActive(dbUser.getIsActive());
         userDTO.setCity(dbUser.getCity());
 
         return userDTO;
     }
 
-    public DBUser toEntity(UserDTO userDTO) {
-        if (userDTO == null) {
-            return null;
-        }
-
-        DBUser dbUser = new DBUser();
-
-        dbUser.setNickname(userDTO.getNickname());
-        dbUser.setEmail(userDTO.getEmail());
-        dbUser.setProfilePicture(userDTO.getProfilePicture());
-        dbUser.setDescription(userDTO.getDescription());
-        dbUser.setRole(userDTO.getRole());
-        dbUser.setIsActive(userDTO.getIsActive());
-        dbUser.setCity(userDTO.getCity());
-        return dbUser;
-    }
+//    public DBUser toEntity(UserDTO userDTO) {
+//        if (userDTO == null) {
+//            return null;
+//        }
+//
+//        DBUser dbUser = new DBUser();
+//
+//        dbUser.setNickname(userDTO.getNickname());
+//        dbUser.setEmail(userDTO.getEmail());
+//        dbUser.setProfilePicture(userDTO.getProfilePicture());
+//        dbUser.setDescription(userDTO.getDescription());
+//        dbUser.setRole(new Role(userDTO.getRole());
+//        dbUser.setIsActive(userDTO.getIsActive());
+//        dbUser.setCity(userDTO.getCity());
+//        return dbUser;
+//    }
 
     public List<UserDTO> toDTOList(List<DBUser> dbUsers) {
         return dbUsers.stream()
@@ -51,11 +52,11 @@ public class UserMapper {
                 .toList();
     }
 
-    public List<DBUser> toEntityList(List<UserDTO> dtos) {
-        return dtos.stream()
-                .map(this::toEntity)
-                .toList();
-    }
+//    public List<DBUser> toEntityList(List<UserDTO> dtos) {
+//        return dtos.stream()
+//                .map(this::toEntity)
+//                .toList();
+//    }
 
     public DBUser toEntity(UserCreateDTO userCreateDTO) {
         if (userCreateDTO == null) {

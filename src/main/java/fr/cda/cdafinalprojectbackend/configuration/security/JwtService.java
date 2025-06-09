@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -45,15 +47,15 @@ public class JwtService {
         final long expirationTime = currentTime + 30 * 60 * 1000;
 
         Map<String, Object> claims = Map.of(
-                "nickname", dbUser.getNickname(),
+                "email", dbUser.getEmail(),
                 Claims.EXPIRATION, new Date(expirationTime),
-                Claims.SUBJECT, dbUser.getEmail()
+                Claims.SUBJECT, dbUser.getId().toString()
         );
 
         final String bearer = Jwts.builder()
                 .setIssuedAt(new Date(currentTime))
                 .setExpiration(new Date(expirationTime))
-                .setSubject(dbUser.getEmail())
+                .setSubject(dbUser.getId().toString())
                 .setClaims(claims)
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
@@ -68,9 +70,14 @@ public class JwtService {
         return Keys.hmacShaKeyFor(decoder);
     }
 
-    public String extractUsername(String token) {
+    public String extractId(String token) {
         Claims claims = this.getAllClaims(token);
         return claims.getSubject();
+    }
+
+    public String extractEmail(String token) {
+        Claims claims = this.getAllClaims(token);
+        return claims.get("email", String.class);
     }
 
     public boolean isTokenExpired(String token) {
@@ -99,5 +106,11 @@ public class JwtService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public Jwt getTokenByValue(String value) {
+        return this.jwtRepository.findByValue(value).orElseThrow(
+                () -> new RuntimeException("Token not found")
+        );
     }
 }

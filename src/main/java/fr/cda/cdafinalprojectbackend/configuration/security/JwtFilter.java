@@ -1,5 +1,6 @@
 package fr.cda.cdafinalprojectbackend.configuration.security;
 
+import fr.cda.cdafinalprojectbackend.entity.Jwt;
 import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,21 +20,29 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
     private UserServiceImpl userService;
     private JwtService jwtService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String username = null;
-        String jwtToken = null;
+        String user = null;
+        String token;
         boolean isTokenExpired = true;
+        Jwt jwt = null;
+
 
         final String authorization = request.getHeader("Authorization");
         if (authorization != null && authorization.startsWith("Bearer ")) {
-            jwtToken = authorization.substring(7);
-            isTokenExpired = jwtService.isTokenExpired(jwtToken);
-            username = jwtService.extractUsername(jwtToken);
+            token = authorization.substring(7);
+            isTokenExpired = jwtService.isTokenExpired(token);
+            jwt = jwtService.getTokenByValue(token);
+            user = jwtService.extractEmail(token);
         }
 
-        if (!isTokenExpired && username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userService.loadUserByUsername(username);
+        if (
+                !isTokenExpired
+                && jwt.getUser().getEmail().equals(user)
+                && SecurityContextHolder.getContext().getAuthentication() == null
+        ) {
+            UserDetails userDetails = userService.loadUserByUsername(user);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
