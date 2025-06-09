@@ -11,13 +11,14 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,6 +32,7 @@ public class JwtService {
 
     public Map<String, String> getJwtToken(String username) {
         DBUser dbUser = this.userService.loadUserByUsername(username);
+        this.disableTokens(dbUser);
         final Map<String, String> jwtMap = this.generateJwt(dbUser);
         final Jwt jwt = Jwt.builder()
                 .value(jwtMap.get(BEARER))
@@ -69,6 +71,18 @@ public class JwtService {
         final byte[] decoder = Decoders.BASE64.decode(ENCRYPTION_KEY);
         return Keys.hmacShaKeyFor(decoder);
     }
+
+    private void disableTokens(DBUser user) {
+        final List<Jwt> jwtList = this.jwtRepository.findTokenByUser(user.getEmail()).peek(
+                jwt -> {
+                    jwt.setActive(false);
+                    jwt.setExpirate(true);
+                }
+        ).collect(Collectors.toList());
+
+        this.jwtRepository.saveAll(jwtList);
+    }
+
 
     public String extractId(String token) {
         Claims claims = this.getAllClaims(token);
@@ -112,5 +126,23 @@ public class JwtService {
         return this.jwtRepository.findByValue(value).orElseThrow(
                 () -> new RuntimeException("Token not found")
         );
+    }
+
+    public void logout() {
+        DBUser user = (DBUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Jwt jwt = this.jwtRepository.findValidTokenByUser(
+                user.getEmail(),
+                false,
+                true
+        ).orElseThrow(() -> new RuntimeException("Invalid token"));
+        jwt.setActive(false);
+        jwt.setExpirate(true);
+        this.jwtRepository.save(jwt);
+    }
+
+    @Scheduled(cron = "@daily")
+    public void removeUselessJwt() {
+        log.info("Remove useless jwt at {}", Instant.now());
+        this.jwtRepository.deleteAllByActiveAndExpirate(false, true);
     }
 }

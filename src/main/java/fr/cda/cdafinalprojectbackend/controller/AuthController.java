@@ -67,4 +67,9 @@ public class AuthController {
         log.info("userId {}", userId);
         return this.userService.getUserById(userId);
     }
+
+    @PostMapping("/logout")
+    public void logout() {
+        this.jwtService.logout();
+    }
 }
