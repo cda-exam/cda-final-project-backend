@@ -143,6 +143,6 @@ public class JwtService {
     @Scheduled(cron = "@daily")
     public void removeUselessJwt() {
         log.info("Remove useless jwt at {}", Instant.now());
-        this.jwtRepository.deleteAllByActiveAndExpirate(false, true);
+        this.jwtRepository.deleteAllByIsActiveAndExpirate(false, true);
     }
 }

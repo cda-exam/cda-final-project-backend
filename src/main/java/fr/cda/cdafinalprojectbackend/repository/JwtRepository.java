@@ -18,5 +18,5 @@ public interface JwtRepository extends JpaRepository<Jwt, Long> {
     @Query("FROM Jwt j WHERE j.user.email = :email")
     Stream<Jwt> findTokenByUser(String email);
 
-    void deleteAllByActiveAndExpirate(boolean isActive, boolean expirate);
+    void deleteAllByIsActiveAndExpirate(boolean isActive, boolean expirate);
 }
