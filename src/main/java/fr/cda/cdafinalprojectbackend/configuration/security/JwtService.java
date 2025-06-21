@@ -9,6 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,6 +31,7 @@ public class JwtService {
     private UserServiceImpl userService;
     private JwtRepository jwtRepository;
 
+    @Transactional
     public Map<String, String> getJwtToken(String username) {
         DBUser dbUser = this.userService.loadUserByUsername(username);
         this.disableTokens(dbUser);
@@ -72,6 +74,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(decoder);
     }
 
+    @Transactional
     private void disableTokens(DBUser user) {
         final List<Jwt> jwtList = this.jwtRepository.findTokenByUser(user.getEmail()).peek(
                 jwt -> {
