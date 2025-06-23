@@ -47,6 +47,9 @@ public class SpringSecurityConfig {
                             .requestMatchers(HttpMethod.OPTIONS, "/auth/validate").permitAll()
                             .requestMatchers(HttpMethod.GET, "/auth/current").permitAll()
                             .requestMatchers(HttpMethod.OPTIONS, "/auth/current").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/user-images/**").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/user-images/**").permitAll()
+                            .requestMatchers(HttpMethod.OPTIONS, "/user-images/**").permitAll()
                             .anyRequest().authenticated()
                 )
                 .sessionManagement(

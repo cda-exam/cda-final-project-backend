@@ -1,5 +1,6 @@
 package fr.cda.cdafinalprojectbackend.entity;
 
+import fr.cda.cdafinalprojectbackend.document.DBUserImage;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
