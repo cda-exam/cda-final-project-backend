@@ -75,7 +75,7 @@ public class JwtService {
     }
 
     @Transactional
-    private void disableTokens(DBUser user) {
+    protected void disableTokens(DBUser user) {
         final List<Jwt> jwtList = this.jwtRepository.findTokenByUser(user.getEmail()).peek(
                 jwt -> {
                     jwt.setActive(false);
