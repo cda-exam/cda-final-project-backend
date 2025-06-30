@@ -116,11 +116,6 @@ public class JwtService {
         return claims.getExpiration();
     }
 
-//    private <T> T getClaim(String token, Function<Claims, T> function) {
-//        Claims claims = getAllClaims(token);
-//        return function.apply(claims);
-//    }
-
     private Claims getAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getKey())

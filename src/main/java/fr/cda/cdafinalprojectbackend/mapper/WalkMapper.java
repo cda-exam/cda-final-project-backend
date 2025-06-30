@@ -1,8 +1,11 @@
 package fr.cda.cdafinalprojectbackend.mapper;
 
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkDTO;
+import fr.cda.cdafinalprojectbackend.entity.DBUser;
 import fr.cda.cdafinalprojectbackend.entity.Walk;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 
 @Component
@@ -27,6 +30,7 @@ public class WalkMapper {
         walkDTO.setStartLatitude(walk.getStartLatitude());
         walkDTO.setStartLongitude(walk.getStartLongitude());
         walkDTO.setCreatedBy(walk.getCreatedBy().getId());
+        walkDTO.setParticipants(walk.getParticipants().stream().map(DBUser::getId).collect(Collectors.toSet()));
         return walkDTO;
     }
 }

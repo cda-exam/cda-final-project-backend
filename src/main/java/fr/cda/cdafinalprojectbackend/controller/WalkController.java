@@ -4,9 +4,9 @@ import fr.cda.cdafinalprojectbackend.dto.walk.WalkCreateDTO;
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkDTO;
 import fr.cda.cdafinalprojectbackend.service.WalkService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,5 +16,24 @@ public class WalkController {
     @PostMapping("/walks")
     public WalkDTO createWalk(@RequestBody WalkCreateDTO walk) {
         return this.walkService.createWalk(walk);
+    }
+    
+    /**
+     * Permet à l'utilisateur courant de s'inscrire à une promenade
+     * @param walkId l'identifiant de la promenade
+     * @return la promenade mise à jour avec le nouvel inscrit
+     */
+    @PostMapping("/walks/{walkId}/join")
+    public ResponseEntity<WalkDTO> joinWalk(@PathVariable Long walkId) {
+        try {
+            WalkDTO updatedWalk = this.walkService.joinWalk(walkId);
+            return ResponseEntity.ok(updatedWalk);
+        } catch (IllegalStateException e) {
+            // Cas où le nombre maximum de participants est atteint
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            // Autres erreurs (promenade non trouvée, etc.)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
