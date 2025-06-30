@@ -6,7 +6,7 @@ import fr.cda.cdafinalprojectbackend.dto.user.UserUpdateDTO;
 import fr.cda.cdafinalprojectbackend.entity.DBUser;
 import fr.cda.cdafinalprojectbackend.exception.UserAlreadyExistsException;
 import fr.cda.cdafinalprojectbackend.exception.UserNotFoundException;
-import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
+import fr.cda.cdafinalprojectbackend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import java.util.UUID;
 @RequestMapping(value = "user")
 @AllArgsConstructor
 public class UserController {
-    UserServiceImpl userService;
+    UserService userService;
 
     @GetMapping(value = "test")
     public String getTest() {

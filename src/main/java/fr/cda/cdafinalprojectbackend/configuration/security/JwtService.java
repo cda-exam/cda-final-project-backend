@@ -3,7 +3,7 @@ package fr.cda.cdafinalprojectbackend.configuration.security;
 import fr.cda.cdafinalprojectbackend.entity.DBUser;
 import fr.cda.cdafinalprojectbackend.entity.Jwt;
 import fr.cda.cdafinalprojectbackend.repository.JwtRepository;
-import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
+import fr.cda.cdafinalprojectbackend.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,7 +28,7 @@ public class JwtService {
     // TODO Placer l'encryption key dans le Vault
     private static final String ENCRYPTION_KEY =  "5c275094bb03404a10e5a0ed86f2046e93a03cd138a813ed7379243e9e87697d";
     public static final String BEARER = "bearer";
-    private UserServiceImpl userService;
+    private UserService userService;
     private JwtRepository jwtRepository;
 
     @Transactional

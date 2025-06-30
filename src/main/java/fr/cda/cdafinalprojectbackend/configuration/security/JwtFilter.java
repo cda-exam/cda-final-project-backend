@@ -1,7 +1,7 @@
 package fr.cda.cdafinalprojectbackend.configuration.security;
 
 import fr.cda.cdafinalprojectbackend.entity.Jwt;
-import fr.cda.cdafinalprojectbackend.service.UserServiceImpl;
+import fr.cda.cdafinalprojectbackend.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.io.IOException;
 @Service
 @AllArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    private UserServiceImpl userService;
+    private UserService userService;
     private JwtService jwtService;
 
     @Override

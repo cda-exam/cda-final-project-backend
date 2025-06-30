@@ -12,9 +12,9 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
-public class ValidationServiceImpl {
+public class ValidationService {
     private final ValidationRepository validationRepository;
-    private final NotificationServiceImpl notificationService;
+    private final NotificationService notificationService;
 
     public void saveValidation(DBUser user) {
         Validation validation = new Validation();
