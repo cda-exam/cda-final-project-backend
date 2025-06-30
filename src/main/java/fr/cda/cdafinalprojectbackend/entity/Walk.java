@@ -24,8 +24,8 @@ public class Walk {
     private Integer participantsMax;
     private String description;
     private String location;
-    private Long startLatitude;
-    private Long startLongitude;
+    private String startLatitude;
+    private String startLongitude;
     
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)

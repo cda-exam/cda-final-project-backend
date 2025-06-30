@@ -10,6 +10,6 @@ public class WalkCreateDTO {
     private Integer participantsMax;
     private String description;
     private String location;
-    private Long startLatitude;
-    private Long startLongitude;
+    private String startLatitude;
+    private String startLongitude;
 }

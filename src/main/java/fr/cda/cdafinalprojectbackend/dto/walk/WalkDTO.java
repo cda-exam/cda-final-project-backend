@@ -15,8 +15,8 @@ public class WalkDTO {
     private Integer participantsMax;
     private String description;
     private String location;
-    private Long startLatitude;
-    private Long startLongitude;
+    private String startLatitude;
+    private String startLongitude;
     private UUID createdBy;
     private Set<UUID> participants = new HashSet<>();
 }
