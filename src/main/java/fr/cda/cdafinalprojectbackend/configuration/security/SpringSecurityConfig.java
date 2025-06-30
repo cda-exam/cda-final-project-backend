@@ -57,7 +57,14 @@ public class SpringSecurityConfig {
                             httpSession.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                         }
                 )
-
+                // Désactiver la redirection après la déconnexion
+                .logout(logout -> logout
+                        .logoutUrl("/api-logout") // URL qui ne sera pas utilisée (pour éviter les conflits avec votre endpoint)
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            // Ne rien faire, pas de redirection
+                        })
+                        .permitAll()
+                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 public interface JwtRepository extends JpaRepository<Jwt, Long> {
     Optional<Jwt> findByValue(String value);
 
-    @Query("FROM Jwt j WHERE j.user.email = :email AND j.isActive = :desactive AND j.expirate = :expirate")
-    Optional<Jwt> findValidTokenByUser(String email, boolean desactive, boolean expirate);
+    @Query("FROM Jwt j WHERE j.user.email = :email AND j.isActive = :active AND j.expirate = :expirate")
+    Optional<Jwt> findValidTokenByUser(String email, boolean active, boolean expirate);
 
     @Query("FROM Jwt j WHERE j.user.email = :email")
     Stream<Jwt> findTokenByUser(String email);

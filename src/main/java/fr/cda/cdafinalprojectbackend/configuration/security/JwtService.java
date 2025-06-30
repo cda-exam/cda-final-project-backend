@@ -97,6 +97,10 @@ public class JwtService {
         return claims.get("email", String.class);
     }
 
+    public DBUser getCurrentUser() {
+        return (DBUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
     public boolean isTokenExpired(String token) {
         Date expirationDate = getExpirationDateFromToken(token);
         log.info(token + " expiration date: " + expirationDate);
@@ -135,8 +139,8 @@ public class JwtService {
         DBUser user = (DBUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Jwt jwt = this.jwtRepository.findValidTokenByUser(
                 user.getEmail(),
-                false,
-                true
+                true,
+                false
         ).orElseThrow(() -> new RuntimeException("Invalid token"));
         jwt.setActive(false);
         jwt.setExpirate(true);
