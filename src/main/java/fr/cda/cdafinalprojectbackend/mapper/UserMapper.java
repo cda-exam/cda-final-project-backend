@@ -18,6 +18,7 @@ public class UserMapper {
 
         UserDTO userDTO = new UserDTO();
 
+        userDTO.setId(dbUser.getId());
         userDTO.setNickname(dbUser.getNickname());
         userDTO.setEmail(dbUser.getEmail());
         userDTO.setProfilePicture(dbUser.getProfilePicture());
@@ -40,7 +41,7 @@ public class UserMapper {
 //        dbUser.setEmail(userDTO.getEmail());
 //        dbUser.setProfilePicture(userDTO.getProfilePicture());
 //        dbUser.setDescription(userDTO.getDescription());
-//        dbUser.setRole(new Role(userDTO.getRole());
+//        dbUser.setRole(userDTO.getRole());
 //        dbUser.setIsActive(userDTO.getIsActive());
 //        dbUser.setCity(userDTO.getCity());
 //        return dbUser;

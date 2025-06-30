@@ -77,6 +77,9 @@ public class DBUser implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Dog> dogs = new ArrayList<>();
+    
+    @ManyToMany(mappedBy = "participants")
+    private Set<Walk> walks = new HashSet<>();
 
     @Override
     public String getUsername() {

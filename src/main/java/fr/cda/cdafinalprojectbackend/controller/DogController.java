@@ -6,6 +6,7 @@ import fr.cda.cdafinalprojectbackend.service.DogServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,4 +19,7 @@ public class DogController {
     public void createDog(@PathVariable UUID userId, @RequestBody DogDTO dogDTO) throws UserNotFoundException {
         dogService.createDog(userId, dogDTO);
     }
+
+    @GetMapping("/{userId}")
+    public List<DogDTO> getDogsByUser(@PathVariable UUID userId) { return dogService.getDogsByUser(userId); }
 }

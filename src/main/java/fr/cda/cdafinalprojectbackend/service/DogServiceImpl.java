@@ -41,4 +41,9 @@ public class DogServiceImpl implements DogService {
         Dog savedDog = dogRepository.save(dog);
         return dogMapper.toDTO(savedDog);
     }
+
+    @Override
+    public List<DogDTO> getDogsByUser(UUID userId) {
+        return this.dogMapper.toDTOList(this.dogRepository.findAllByUserId(userId));
+    }
 }
