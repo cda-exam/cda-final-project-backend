@@ -2,11 +2,14 @@ package fr.cda.cdafinalprojectbackend.controller;
 
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkCreateDTO;
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkDTO;
+import fr.cda.cdafinalprojectbackend.dto.walk.WalkLocationDTO;
 import fr.cda.cdafinalprojectbackend.service.WalkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +38,10 @@ public class WalkController {
             // Autres erreurs (promenade non trouvée, etc.)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @GetMapping("/walks/location")
+    public List<WalkLocationDTO> getWalksCloseToUser(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius) {
+        return this.walkService.getWalksCloseToUser(latitude, longitude, radius);
     }
 }

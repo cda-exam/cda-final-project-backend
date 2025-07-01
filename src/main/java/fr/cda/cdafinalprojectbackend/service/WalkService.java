@@ -3,6 +3,7 @@ package fr.cda.cdafinalprojectbackend.service;
 import fr.cda.cdafinalprojectbackend.configuration.security.JwtService;
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkCreateDTO;
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkDTO;
+import fr.cda.cdafinalprojectbackend.dto.walk.WalkLocationDTO;
 import fr.cda.cdafinalprojectbackend.entity.DBUser;
 import fr.cda.cdafinalprojectbackend.entity.Walk;
 import fr.cda.cdafinalprojectbackend.mapper.WalkCreateMapper;
@@ -12,6 +13,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +61,9 @@ public class WalkService {
         Walk updatedWalk = this.walkRepository.save(walk);
 
         return this.walkMapper.toDTO(updatedWalk);
+    }
+
+    public List<WalkLocationDTO> getWalksCloseToUser(double latitude, double longitude, double radius) {
+        return this.walkRepository.findWalksCloseToUser(latitude, longitude, radius);
     }
 }
