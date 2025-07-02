@@ -1,5 +1,6 @@
 package fr.cda.cdafinalprojectbackend.repository;
 
+import fr.cda.cdafinalprojectbackend.dto.walk.WalkDTO;
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkLocationDTO;
 import fr.cda.cdafinalprojectbackend.entity.Walk;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WalkRepository extends JpaRepository<Walk, Long> {
@@ -24,4 +26,5 @@ public interface WalkRepository extends JpaRepository<Walk, Long> {
             "  sin(radians(:latitude)) * sin(radians(CAST(w.start_latitude AS double precision)))))"
             ,nativeQuery = true)
     List<WalkLocationDTO> findWalksCloseToUser(double latitude, double longitude, double radius);
+    Optional<Walk> findWalkById(Long id);
 }
