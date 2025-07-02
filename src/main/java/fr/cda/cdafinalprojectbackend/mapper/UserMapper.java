@@ -36,12 +36,15 @@ public class UserMapper {
 //        }
 //
 //        DBUser dbUser = new DBUser();
+//        Role role = new Role();
+//        role.setType(userDTO.getRole());
 //
+//        dbUser.setId(userDTO.getId());
 //        dbUser.setNickname(userDTO.getNickname());
 //        dbUser.setEmail(userDTO.getEmail());
 //        dbUser.setProfilePicture(userDTO.getProfilePicture());
 //        dbUser.setDescription(userDTO.getDescription());
-//        dbUser.setRole(userDTO.getRole());
+//        dbUser.setRole(role);
 //        dbUser.setIsActive(userDTO.getIsActive());
 //        dbUser.setCity(userDTO.getCity());
 //        return dbUser;

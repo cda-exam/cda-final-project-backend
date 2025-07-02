@@ -43,26 +43,31 @@ public class WalkService {
     }
 
     @Transactional
-    public WalkDTO joinWalk(Long walkId) {
+    public WalkDetailsDTO joinWalk(Long walkId) {
         // Récupérer l'utilisateur courant
         DBUser currentUser = this.jwtService.getCurrentUser();
-        
-        // Récupérer la promenade
+
         Walk walk = this.walkRepository.findById(walkId)
                 .orElseThrow(() -> new EntityNotFoundException("Promenade non trouvée avec l'ID: " + walkId));
 
+        WalkDetailsDTO walkDetailsDTO = this.getWalkById(walkId);
+
         // Vérifier si l'utilisateur est déjà inscrit
-        if (walk.getParticipants().contains(currentUser)) {
-            return this.walkMapper.toDTO(walk); // L'utilisateur est déjà inscrit, retourner la promenade sans modification
+        if (walkDetailsDTO.getCreatedBy().getId().equals(currentUser.getId())) {
+            return walkDetailsDTO; // L'utilisateur est déjà inscrit, retourner la promenade sans modification
         }
-        
-        // Vérifier si le nombre maximum de participants est atteint
-        if (walk.getParticipantsMax() != null && walk.getParticipants().size() >= walk.getParticipantsMax()) {
+
+        if (walkDetailsDTO.getParticipantsDog().size() == walkDetailsDTO.getParticipantsMax()) {
             throw new IllegalStateException("Le nombre maximum de participants est atteint pour cette promenade");
         }
 
+            // Vérifier si le nombre maximum de participants est atteint
+        if (walkDetailsDTO.getParticipantsDog().size() + currentUser.getDogs().size() > walkDetailsDTO.getParticipantsMax()) {
+            throw new IllegalStateException("Vous êtes trop nombreux pour rejoindre cette promenade");
+        }
+
         // Vérifier si le créateur de la promenade est l'utilisateur courant
-        if (walk.getCreatedBy().getId().equals(currentUser.getId())) {
+        if (walkDetailsDTO.getParticipantsUser().stream().anyMatch(user -> user.getId().equals(currentUser.getId()))) {
            throw new IllegalStateException("Vous ne pouvez pas vous inscrire à votre propre promenade");
         }
 
@@ -70,7 +75,7 @@ public class WalkService {
 
         Walk updatedWalk = this.walkRepository.save(walk);
 
-        return this.walkMapper.toDTO(updatedWalk);
+        return this.walkDetailsMapper.toDTO(updatedWalk);
     }
 
     public List<WalkLocationDTO> getWalksCloseToUser(double latitude, double longitude, double radius) {
@@ -80,7 +85,6 @@ public class WalkService {
     public WalkDetailsDTO getWalkById(Long id) {
         Walk walk = this.walkRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Promenade non trouvée avec l'ID: " + id));
-        WalkDetailsDTO walkDetailsDTO = this.walkDetailsMapper.toDTO(walk);
-        return walkDetailsDTO;
+        return this.walkDetailsMapper.toDTO(walk);
     }
 }

@@ -4,7 +4,7 @@ import fr.cda.cdafinalprojectbackend.dto.dog.DogDTO;
 import fr.cda.cdafinalprojectbackend.dto.walk.CreatedUserDTO;
 import fr.cda.cdafinalprojectbackend.dto.walk.WalkDetailsDTO;
 import fr.cda.cdafinalprojectbackend.entity.Walk;
-import org.springframework.data.annotation.CreatedBy;
+
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;

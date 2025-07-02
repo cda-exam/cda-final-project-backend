@@ -28,9 +28,9 @@ public class WalkController {
      * @return la promenade mise à jour avec le nouvel inscrit
      */
     @PostMapping("/walks/{walkId}/join")
-    public ResponseEntity<WalkDTO> joinWalk(@PathVariable Long walkId) {
+    public ResponseEntity<WalkDetailsDTO> joinWalk(@PathVariable Long walkId) {
         try {
-            WalkDTO updatedWalk = this.walkService.joinWalk(walkId);
+            WalkDetailsDTO updatedWalk = this.walkService.joinWalk(walkId);
             return ResponseEntity.ok(updatedWalk);
         } catch (IllegalStateException e) {
             // Cas où le nombre maximum de participants est atteint
