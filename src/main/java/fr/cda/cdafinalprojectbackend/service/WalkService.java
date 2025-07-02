@@ -52,6 +52,11 @@ public class WalkService {
 
         WalkDetailsDTO walkDetailsDTO = this.getWalkById(walkId);
 
+        // Vérifier si le créateur de la promenade est l'utilisateur courant
+        if (walkDetailsDTO.getParticipantsUser().stream().anyMatch(user -> user.getId().equals(currentUser.getId()))) {
+            throw new IllegalStateException("Vous ne pouvez pas vous inscrire à votre propre promenade");
+        }
+
         // Vérifier si l'utilisateur est déjà inscrit
         if (walkDetailsDTO.getCreatedBy().getId().equals(currentUser.getId())) {
             return walkDetailsDTO; // L'utilisateur est déjà inscrit, retourner la promenade sans modification
@@ -64,11 +69,6 @@ public class WalkService {
             // Vérifier si le nombre maximum de participants est atteint
         if (walkDetailsDTO.getParticipantsDog().size() + currentUser.getDogs().size() > walkDetailsDTO.getParticipantsMax()) {
             throw new IllegalStateException("Vous êtes trop nombreux pour rejoindre cette promenade");
-        }
-
-        // Vérifier si le créateur de la promenade est l'utilisateur courant
-        if (walkDetailsDTO.getParticipantsUser().stream().anyMatch(user -> user.getId().equals(currentUser.getId()))) {
-           throw new IllegalStateException("Vous ne pouvez pas vous inscrire à votre propre promenade");
         }
 
         walk.getParticipants().add(currentUser);
