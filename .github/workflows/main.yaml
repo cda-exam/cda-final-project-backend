@@ -106,13 +106,14 @@ jobs:
       - name: Scan Trivy
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: '${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:${{ github.sha }}'
+          #image-ref: '${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:${{ github.sha }}'
           format: 'table'
           output: 'trivy-results.txt'
           exit-code: '0'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
+          scan-type: 'fs'
       - name: Upload Trivy scan results
         uses: actions/upload-artifact@v4
         with:
