@@ -41,6 +41,8 @@ jobs:
   trivy:
     name: Trivy Analyze
     runs-on: ubuntu-latest
+    needs:
+      - sonar
     steps:
     - name: Checkout du code
       uses: actions/checkout@v4
@@ -69,7 +71,7 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     needs:
-      - sonar
+      - trivy
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
