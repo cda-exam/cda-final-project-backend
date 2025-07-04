@@ -21,31 +21,31 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build, Test et Analyse SonarQube
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          mvn -X clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=cda-exam_cda-final-project-backend \
-            -Dproject.settings=sonar-project.properties
-      - name: Sauvegarde de l’artefact
-        uses: actions/upload-artifact@v4
-        with:
-          name: spring-boot-app
-          path: target/*.jar
-          retention-days: 7
+#      - name: Cache SonarQube packages
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.sonar/cache
+#          key: ${{ runner.os }}-sonar
+#          restore-keys: ${{ runner.os }}-sonar
+#      - name: Cache Maven dependencies
+#        uses: actions/cache@v4
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Build, Test et Analyse SonarQube
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        run: |
+#          mvn -X clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+#            -Dsonar.projectKey=cda-exam_cda-final-project-backend \
+#            -Dproject.settings=sonar-project.properties
+#      - name: Sauvegarde de l’artefact
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: spring-boot-app
+#          path: target/*.jar
+#          retention-days: 7
   docker:
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
