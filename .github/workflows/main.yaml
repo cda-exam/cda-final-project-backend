@@ -102,7 +102,7 @@ jobs:
           path: target/
       - name: Build de l’image Docker
         run: |
-          docker build --no-cache --rm -t ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:latest .
+          docker build --no-cache --rm -t ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:${{ github.sha }} .
       - name: Scan Trivy
         uses: aquasecurity/trivy-action@0.28.0
         with:
@@ -116,4 +116,4 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: Push de l’image Docker sur Docker Hub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:${{ github.sha }}
