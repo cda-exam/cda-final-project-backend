@@ -107,14 +107,11 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: '${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:${{ github.sha }}'
-          format: 'template'
-          template: "@$HOME/.local/bin/trivy-bin/contrib/html.tpl"
+          format: 'json'
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-          scan-type: "fs"
-          scan-ref: .
       - name: Connexion à Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: Push de l’image Docker sur Docker Hub
