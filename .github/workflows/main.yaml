@@ -37,8 +37,9 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-            -Dsonar.projectKey=cda-exam_cda-final-project-backend
+          mvn -X clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=cda-exam_cda-final-project-backend \
+            -Dproject.settings=sonar-project.properties
       - name: Sauvegarde de l’artefact
         uses: actions/upload-artifact@v4
         with:
