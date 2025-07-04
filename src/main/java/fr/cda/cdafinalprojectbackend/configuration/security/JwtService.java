@@ -81,7 +81,7 @@ public class JwtService {
                     jwt.setActive(false);
                     jwt.setExpirate(true);
                 }
-        ).collect(Collectors.toList());
+        ).toList();
 
         this.jwtRepository.saveAll(jwtList);
     }
