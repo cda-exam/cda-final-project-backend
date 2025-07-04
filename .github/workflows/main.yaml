@@ -107,7 +107,8 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: '${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:${{ github.sha }}'
-          format: 'table'
+          format: 'template'
+          template: "@$HOME/.local/bin/trivy-bin/contrib/html.tpl"
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
