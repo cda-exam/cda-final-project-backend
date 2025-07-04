@@ -12,8 +12,8 @@ on:
 
 
 jobs:
-  build:
-    name: Build, Test
+  set-up:
+    name: Set up Java and Maven
     runs-on: ubuntu-latest
     steps:
       - name: Checkout du code
@@ -29,6 +29,8 @@ jobs:
   sonar:
     name: Sonar Analyze
     runs-on: ubuntu-latest
+    needs:
+      - set-up
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -52,7 +54,6 @@ jobs:
     name: Push Docker Image
     runs-on: ubuntu-latest
     needs:
-      - build
       - sonar
     steps:
       - name: Télécharger l’artefact
