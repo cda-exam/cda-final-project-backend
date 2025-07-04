@@ -107,7 +107,8 @@ jobs:
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: '${{ secrets.DOCKER_USERNAME }}/cda-final-project-backend:${{ github.sha }}'
-          format: 'json'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
