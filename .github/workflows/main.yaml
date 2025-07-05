@@ -1,4 +1,4 @@
-name: CI-CD-WORKFLOW
+name: BACKEND-WORKFLOW
 on:
   push:
     branches:
